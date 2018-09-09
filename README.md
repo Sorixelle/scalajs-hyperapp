@@ -128,6 +128,7 @@ The `<` function can also accept a component as it's first parameter. There are 
 - `ComponentWithChildren` (`(props, children) => ViewNode`)
 - `LazyComponent` (`props => (state, actions) => ViewNode`)
 - `LazyComponentWithChildren` (`(props, children) => (state, actions) => ViewNode`)
+
 The shape of the props object is the same as a state object, so you can use all the methods in `DSL.StateOps` on a props
 object in the same way you would on a state object.
 
