@@ -1,0 +1,48 @@
+Feature: scalajs-hyperapp
+
+  @StepDef
+  Scenario: I run the "<testName>" test
+      Given I navigate to "file://${user.dir}/../index.html"
+       Then I execute javascript "$<testName>Test.run()"
+
+  @StepDef
+  Scenario: I run the action call test
+      Given I run the "ActionCall" test
+        And the counter can be located by id "counter"
+        And the increment button can be located by id "increment"
+        And the decrement button can be located by id "decrement"
+
+  @StepDef
+  Scenario: I run the app mount test
+      Given I run the "AppMount" test
+        And the message can be located by id "message"
+
+  @StepDef
+  Scenario: I run the component test
+      Given I run the "Component" test
+        And the component text can be located by xpath "//div[@id='component']/h1"
+        And the children component text can be located by xpath "//div[@id='componentWithChildren']/h1"
+
+  @StepDef
+  Scenario: I run the external action call test
+      Given I run the "ExternalActionCall" test
+        And the counter can be located by id "counter"
+
+  @StepDef
+  Scenario: I call the external action "<action>"
+      Given I execute javascript "ExternalActionCallTest.$<action>()"
+
+  @StepDef
+  Scenario: I run the lazy component test
+      Given I run the "LazyComponent" test
+        And the lazy counter text can be located by id "count1"
+        And the lazy counter button can be located by id "inc1"
+        And the lazy children counter text can be located by id "count2"
+        And the lazy children counter button can be located by id "inc2"
+        And the lazy children counter heading can be located by id "lazyComponentHeading"
+
+  @StepDef
+  Scenario: I run the nested state test
+      Given I run the "NestedState" test
+        And the counter text can be located by id "counter"
+        And the counter button can be located by id "inc"

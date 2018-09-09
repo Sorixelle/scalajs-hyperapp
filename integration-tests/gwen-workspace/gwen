@@ -1,0 +1,138 @@
+#!/bin/sh
+
+# Gwen workspace
+# ==============
+
+#  ---------------------------------------------------------------------------
+#  Gwen workspace script for linux environments
+#  ---------------------------------------------------------------------------
+
+# Defaults
+default_browser="chrome"
+default_env="local"
+
+# Help and usage
+if [[ $1 = "help" ]];
+  then
+    echo
+    echo "Usage:"
+    echo "  ./gwen [browser] [env] [options] [features]"
+    echo "    [browser] ="
+    echo "      chrome  : to use chrome browser (default)"
+    echo "      firefox : to use firefox browser"
+    echo "      safari  : to use safari browser"
+    echo "    [env]     ="
+    echo "      local   : to use local user environment (default)"
+    echo "      name    : name of environment to use"
+    echo "                (e.g: dev will load env/dev.properties)"
+    echo "    [options] ="
+    echo "      --version"
+    echo "              : Prints the implementation version"
+    echo "      -b --batch"
+    echo "              : Batch/server mode"
+    echo "      --parallel"
+    echo "              : Parallel batch execution mode"
+    echo "      -f, --formats <formats>"
+    echo "              : Comma separated report formats to produce."
+    echo "                Supported formats include: html slideshow junit json"
+    echo "                (default is html)"
+    echo "      -t, --tags <tags>"
+    echo "              : Comma separated list of @include or ~@exclude tags"
+    echo "      -n, --dry-run"
+    echo "              : Check syntax and validate only"
+    echo "      -i, --input-data <input data file>"
+    echo "              : Input data (CSV file with column headers)"
+    echo "   <features> = Space separated list of feature files/directories"
+    echo
+    exit 1
+fi
+
+# Set target browser
+if [[ $1 = "chrome" ]] || [[ $1 = "firefox" ]] || [[ $1 = "safari" ]];
+  then
+    target_browser="$1"
+    shift
+  else
+    target_browser=$default_browser
+fi
+
+# Set target environment
+if [[ $1 = "local" ]] || [[ -f env/$1.properties ]];
+  then
+    target_env="$1"
+    shift
+  else
+    target_env=$default_env
+fi
+
+echo "Target browser is $target_browser"
+echo "Target environment is $target_env"
+
+# Prepare Gwen JVM args and properties
+gwen_jvm_args="-Dgwen.web.browser=$target_browser"
+gwen_properties="gwen.properties"
+if [[ $target_env != "local" ]];
+  then
+    gwen_properties="$gwen_properties,env/$target_env.properties"
+fi
+
+# Install gwen-web
+gwen_web="target/gwen-packages/gwen-web"
+java -jar gwen-gpm.jar install gwen-web gwen.gwen-web.version $gwen_web -p "$gwen_properties"
+rc=$?
+if [ $rc == 1 ];
+  then
+    echo "Failed to auto-install gwen-web"
+    exit $rc
+fi
+
+# Install chrome web driver if target browser is chrome
+if [[ $target_browser = "chrome" ]];
+  then
+    java -jar gwen-gpm.jar install chrome-driver gwen.chrome-driver.version target/gwen-packages/chrome-driver -p "$gwen_properties"
+    rc=$?
+    if [ $rc == 1 ]
+      then
+        echo "Failed to auto-install chrome web driver"
+        exit $rc
+    fi
+    gwen_jvm_args="$gwen_jvm_args -Dwebdriver.chrome.driver=target/gwen-packages/chrome-driver/chromedriver"
+fi
+
+# Install gecko driver if target browser is firefox
+if [[ $target_browser = "firefox" ]];
+  then
+    java -jar gwen-gpm.jar install gecko-driver gwen.gecko-driver.version target/gwen-packages/gecko-driver -p "$gwen_properties"
+    rc=$?
+    if [ $rc == 1 ];
+      then
+        echo "Failed to auto-install gecko (firefox) web driver"
+        exit $rc
+    fi
+    gwen_jvm_args="$gwen_jvm_args -Dwebdriver.gecko.driver=target/gwen-packages/gecko-driver/geckodriver"
+fi
+
+# If gwen.selenium.version is set to a specific version, then install that
+# selenium-java API version and set SELENIUM_HOME to the installed location
+# Otherwise do nothing if gwen.selenium.version=provided (exit code 2).
+java -jar gwen-gpm.jar install selenium gwen.selenium.version target/gwen-packages/selenium -p "$gwen_properties"
+rc=$?
+if [ $rc == 0 ];
+  then
+    SELENIUM_HOME="target/gwen-packages/selenium"
+fi
+if [ $rc != 0 ];
+  then
+    unset SELENIUM_HOME
+fi
+if [ $rc == 1 ];
+then
+  echo "Failed to auto-install selenium Java package"
+  exit $rc
+fi
+
+# Call Gwen passing in the arguments
+echo
+echo "Launching gwen"
+$gwen_web/bin/gwen-web $gwen_jvm_args -m meta -r target/reports -p "$gwen_properties" "$@"
+exit $?
