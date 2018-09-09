@@ -2,7 +2,8 @@
 
 scalajs-hyperapp
 ================
-A [Scala.js] facade for [Hyperapp](https://hyperapp.js.org), a JavaScript micro-framework for building web applications.
+A [Scala.js](https://www.scala-js.org/) facade for [Hyperapp](https://hyperapp.js.org), a JavaScript micro-framework for
+building web applications.
 
 ## Getting Started
 *TODO: sbt dependency information*
@@ -143,5 +144,6 @@ a PR. Feel free to add more tests if you feel they're necessary, too.
   helping me out with some issues (feel free to pop by and say hi! :))
 
 ## License
-scalajs-hyperapp is licensed under the [BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause). Hyperapp
-is licensed under the [MIT License](https://github.com/jorgebucaran/hyperapp/blob/master/LICENSE.md).
+scalajs-hyperapp is licensed under the
+[BSD 3-Clause License](https://github.com/Sorixelle/scalajs-hyperapp/blob/master/LICENSE). Hyperapp is licensed under
+the [MIT License](https://github.com/jorgebucaran/hyperapp/blob/master/LICENSE.md).
