@@ -12,7 +12,7 @@ Below is the same counter application found in the Hyperapp readme, written with
 ```scala
 import org.scalajs.dom.document
 
-import cf.srxh.hyperapp.Actions
+import cf.srxl.hyperapp.Actions
 import cf.srxl.hyperapp.DSL._
 
 object CounterApp {
