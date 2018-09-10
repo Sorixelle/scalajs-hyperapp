@@ -13,6 +13,4 @@ script:
   - sbt test
   - sbt integrationTests/fastOptJS::webpack
   - cd integration-tests/gwen-workspace
-  - java -jar gwen-gpm.jar install gwen-web gwen.gwen-web.version target/gwen-packages/gwen-web -p gwen.properties
-  - java -jar gwen-gpm.jar install chrome-driver gwen.chrome-driver.version target/gwen-packages/chrome-driver -p gwen.properties
-  - target/gwen-packages/gwen-web/bin/gwen-web -Dgwen.web.browser=chrome -Dwebdriver.chrome.driver=target/gwen-packages/chrome-driver/chromedriver -Dgwen.web.browser.headless=true -m meta -p gwen.properties --parallel features
+  - ./gwen -Dgwen.web.browser.headless=true --parallel features

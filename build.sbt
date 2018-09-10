@@ -1,4 +1,3 @@
-
 val commonSettings = Seq(
   scalaVersion := "2.12.6",
   libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6",
