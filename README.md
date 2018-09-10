@@ -3,6 +3,7 @@
 scalajs-hyperapp
 ================
 [![Build Status](https://travis-ci.org/Sorixelle/scalajs-hyperapp.svg?branch=master)](https://travis-ci.org/Sorixelle/scalajs-hyperapp)
+
 A [Scala.js](https://www.scala-js.org/) facade for [Hyperapp](https://hyperapp.js.org), a JavaScript micro-framework for
 building web applications.
 
