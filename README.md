@@ -3,13 +3,19 @@
 scalajs-hyperapp
 ================
 [![Build Status](https://travis-ci.org/Sorixelle/scalajs-hyperapp.svg?branch=master)](https://travis-ci.org/Sorixelle/scalajs-hyperapp)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cf.srxl/scalajs-hyperapp/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cf.srxl/scalajs-hyperapp)
 
 A [Scala.js](https://www.scala-js.org/) facade for [Hyperapp](https://hyperapp.js.org), a JavaScript micro-framework for
 building web applications.
 
 ## Getting Started
-*TODO: sbt dependency information*
+First, enable the scalajs-bundler plugin by following [these instructions](https://scalacenter.github.io/scalajs-bundler/getting-started.html).
+Then, add the following dependency to your `build.sbt`:
+```scala
+libraryDependencies += "cf.srxl" %%% "scalajs-hyperapp" % "1.0.0"
+```
 
+### Basic App
 Below is the same counter application found in the Hyperapp readme, written with Scala.js.
 ```scala
 import org.scalajs.dom.document
