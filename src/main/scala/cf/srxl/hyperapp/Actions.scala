@@ -27,19 +27,6 @@ class Actions(val actions: Map[String, ActionsEntry]) extends ActionsEntry {
     case a: AsyncAction => a
   }
 
-  def mkTagObject(): Unit = {
-    def run(name: String, as: Map[String, ActionsEntry]): Unit = {
-      js.Dynamic.global.__sjsActionMeta.updateDynamic(name)(as map {
-        case (k, v: Actions) =>
-          run(s"$name.$k", v.actions)
-          (k, "scope")
-        case (k, _: ActionFunc[js.Any]) => (k, "action")
-      } toJSDictionary)
-    }
-
-    run("root", actions)
-  }
-
   override def toJS: Dict = actions mapValues (_.toJS) toJSDictionary
 
   override def toString: String = s"Actions($actions)"

@@ -15,15 +15,11 @@ case class WiredAction(f: js.Any => State) extends WiredActionsEntry
 object WiredActions {
   def apply(as: (String, WiredActionsEntry)*): WiredActions = WiredActions(as.toMap)
 
-  def fromJS(obj: Dict): WiredActions = {
-    def run(dict: Dict, name: String): WiredActions = {
-      val d = dict.toMap
-      new WiredActions(js.Dynamic.global.__sjsActionMeta.selectDynamic(name).asInstanceOf[js.Dictionary[String]] map { case (k, t) => t match {
-        case "scope" => (k, run(d(k).asInstanceOf[Dict], s"$name.$k"))
-        case "action" => (k, WiredAction((a: js.Any) => d(k).asInstanceOf[js.Function1[js.Any, Dict]](a).toMap))
-      }} toMap)
-    }
-
-    run(obj, "root")
+  def fromJS(dict: Dict): WiredActions = {
+    val d = dict.toMap
+    new WiredActions(d mapValues {
+      case action: js.Function => WiredAction((a: js.Any) => action.asInstanceOf[js.Function1[js.Any, Dict]](a).toMap)
+      case s => fromJS(s.asInstanceOf[Dict])
+    })
   }
 }

@@ -54,13 +54,8 @@ object DSL {
            actions: Actions,
            view: View,
            container: dom.Node
-         ): WiredActions = {
-    // eww, side effects
-    js.Dynamic.global.__sjsActionMeta = js.Dictionary()
-    actions.mkTagObject()
-
+         ): WiredActions =
     WiredActions.fromJS(
       Hyperapp.app(state.toJSDictionary, actions.toJS, (s: Dict, a: Dict) => view(s.toMap, WiredActions.fromJS(a)), container)
     )
-  }
 }
