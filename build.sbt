@@ -10,7 +10,7 @@ lazy val root = (project in file("."))
     commonSettings,
     name := "scalajs-hyperapp",
     libraryDependencies += "org.scalatest" %%% "scalatest" % "3.0.5" % Test,
-    npmDependencies in Compile += "hyperapp" -> "1.2.8",
+    npmDependencies in Compile += "hyperapp" -> "1.2.9",
     webpackBundlingMode := BundlingMode.LibraryOnly(),
     publishTo := sonatypePublishTo.value
   ).enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
