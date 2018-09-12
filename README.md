@@ -3,7 +3,7 @@
 scalajs-hyperapp
 ================
 [![Build Status](https://travis-ci.com/Sorixelle/scalajs-hyperapp.svg?branch=master)](https://travis-ci.com/Sorixelle/scalajs-hyperapp)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cf.srxl/scalajs-hyperapp/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cf.srxl/scalajs-hyperapp)
+[![Maven Central](https://img.shields.io/maven-central/v/cf.srxl/scalajs-hyperapp_sjs0.6_2.12.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22cf.srxl%22%20AND%20a:%22scalajs-hyperapp_sjs0.6_2.12%22)
 
 A [Scala.js](https://www.scala-js.org/) facade for [Hyperapp](https://hyperapp.js.org), a JavaScript micro-framework for
 building web applications.
