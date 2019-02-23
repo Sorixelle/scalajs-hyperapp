@@ -13,7 +13,7 @@ class ViewDSLTest extends FlatSpec {
 
   "ViewNode" should "have correct shape" in {
     assert(node.nodeName == "div")
-    assert(node.attributes.toMap.isEmpty)
+    assert(node.props.toMap.isEmpty)
     assert(node.key.toOption.isEmpty)
     assert(node.children.length == 4)
 
@@ -22,8 +22,8 @@ class ViewDSLTest extends FlatSpec {
     assert(p.children(0).asInstanceOf[String] == "text")
 
     val h1 = node.children(1).asInstanceOf[ViewNode]
-    assert(h1.attributes.toMap.length == 1)
-    assert(h1.attributes.toMap.get("key").contains("abc123"))
+    assert(h1.props.toMap.length == 1)
+    assert(h1.props.toMap.get("key").contains("abc123"))
     assert(h1.children.length == 0)
     assert(h1.key.toOption.contains("abc123"))
   }
