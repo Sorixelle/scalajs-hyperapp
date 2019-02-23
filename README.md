@@ -4,10 +4,18 @@ scalajs-hyperapp
 ================
 [![Build Status](https://travis-ci.com/Sorixelle/scalajs-hyperapp.svg?branch=master)](https://travis-ci.com/Sorixelle/scalajs-hyperapp)
 [![Maven Central](https://img.shields.io/maven-central/v/cf.srxl/scalajs-hyperapp_sjs0.6_2.12.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22cf.srxl%22%20AND%20a:%22scalajs-hyperapp_sjs0.6_2.12%22)
-[![Hyperapp 1.2.9](https://img.shields.io/badge/hyperapp-1.2.9-blue.svg)](https://github.com/jorgebucaran/hyperapp)
+[![Hyperapp 1.2.9](https://img.shields.io/badge/hyperapp-2.0.0--alpha.2-blue.svg)](https://github.com/jorgebucaran/hyperapp/tree/V2)
 
 A [Scala.js](https://www.scala-js.org/) facade for [Hyperapp](https://hyperapp.js.org), a JavaScript micro-framework for
 building web applications.
+
+## Notice
+This is the v2 branch, based on Hyperapp V2. Code in this branch is not guarranteed to work, and documentation may not
+be up to date. The behaviour of Hyperapp V2 is subject to change at any time until a stable release of V2, and as such,
+this project may also change. This is not production ready; I would advice sticking to earlier V1 versions until
+Hyperapp V2 has had a stable release.
+
+A list of tasks that need to be completed can be found [here](doc/TODO.md).
 
 ## Getting Started
 First, enable the scalajs-bundler plugin by following [these instructions](https://scalacenter.github.io/scalajs-bundler/getting-started.html).

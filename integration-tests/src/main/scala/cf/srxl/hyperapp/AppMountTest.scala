@@ -1,19 +1,26 @@
 package cf.srxl.hyperapp
 
-import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
-import org.scalajs.dom.document
+import DSL._
 
-import cf.srxl.hyperapp.DSL._
+import scala.scalajs.js
+import org.scalajs.dom._
+import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 
 @JSExportTopLevel("AppMountTest")
 object AppMountTest {
   @JSExport
   def run(): Unit = {
-    val state: State = Map()
-    val actions: Actions = Actions()
-    val view: View = (_, _) =>
-      <("p", ^("id" -> "message"), "Hello, World!")
+    class AppState extends js.Object
+    class AppStateConverter extends StateConverter[AppState] {
+      override def fromJS(obj: Dict): AppState = new AppState()
+    }
 
-    app(state, actions, view, document.getElementById("app"))
+    implicit val sc: AppStateConverter = new AppStateConverter()
+
+    new Hyperapp[AppState](
+      new ActionResult(new AppState),
+      _ => <("p", ^("id" -> "message"), "Hello, World!"),
+      document.getElementById("app")
+    ).run()
   }
 }

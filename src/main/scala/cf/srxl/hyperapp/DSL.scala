@@ -1,29 +1,25 @@
 package cf.srxl.hyperapp
 
-import org.scalajs.dom
-
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 
+import scala.language.implicitConversions
+
 object DSL {
   type Dict = js.Dictionary[js.Any]
-  type State = Map[String, js.Any]
-  type View = (State, WiredActions) => ViewNode
+  type JSObj = Map[String, js.Any]
 
-  implicit class StringOps(val s: String) extends AnyVal {
-    def :>(as: (String, ActionsEntry)*): (String, Actions) = (s, new Actions(as.toMap))
+  implicit def actionFunc1Box[S <: js.Object](f: S => ActionResult[S])(implicit sc: StateConverter[S]): Action1[S] =
+    Action1(f)(sc)
+  implicit def actionFunc2ArgsBox[S <: js.Object](f: (S, JSObj) => ActionResult[S])(implicit sc: StateConverter[S]): Action2Args[S] =
+    Action2Args(f)(sc)
+  implicit def actionFunc2DataBox[S <: js.Object](f: (S, js.Any) => ActionResult[S])(implicit sc: StateConverter[S]): Action2Data[S] =
+    Action2Data(f)(sc)
+  implicit def actionFunc3Box[S <: js.Object](f: (S, JSObj, js.Any) => ActionResult[S])(implicit sc: StateConverter[S]): Action3[S] =
+    Action3(f)(sc)
 
-    def -->[A](f: A => Option[State]): (String, Action) = (s, Action(f.asInstanceOf[js.Any => Option[State]]))
-
-    def ==>[A](f: A => State => Option[State]): (String, ActionWithState) = (s, ActionWithState(f.asInstanceOf[js.Any => State => Option[State]]))
-
-    def =/>[A](f: A => (State, Actions) => Option[State]): (String, AsyncAction) = (s, AsyncAction(f.asInstanceOf[js.Any => (State, WiredActions) => Option[State]]))
-
-    def ::>(xs: (String, js.Any)*): (String, Dict) = (s, xs.toMap.toJSDictionary)
-  }
-
-  implicit class StateOps(val s: State) extends AnyVal {
-    def scope(k: String): Option[State] = s.get(k) map (_.asInstanceOf[Dict].toMap)
+  implicit class StateOps(val s: JSObj) extends AnyVal {
+    def obj(k: String): Option[JSObj] = s.get(k) map (_.asInstanceOf[Dict].toMap)
     def string(k: String): Option[String] = s.get(k) map (_.asInstanceOf[String])
     def int(k: String): Option[Int] = s.get(k) map (_.asInstanceOf[Int])
     def float(k: String): Option[Float] = s.get(k) map (_.asInstanceOf[Float])
@@ -33,29 +29,15 @@ object DSL {
     def array[A](k: String): Option[Array[A]] = s.get(k) map (_.asInstanceOf[Array[A]])
   }
 
-  def <(name: String, attrs: Map[String, js.Any], children: js.Any*): ViewNode = new ViewNode(
-    name,
-    attrs.toJSDictionary,
-    children.toJSArray,
-    attrs.get("key").orUndefined
-  )
+  def <(name: String, attrs: Map[String, js.Any], children: js.Any*): ViewNode =
+    Hyperapp.h(name, attrs.toJSDictionary, children:_*)
 
-  def <(component: ComponentType, attrs: Map[String, js.Any], children: js.Any*): js.Any = component match {
+  /*def <(component: ComponentType, attrs: Map[String, js.Any], children: js.Any*): js.Any = component match {
     case Component(f) => f(attrs)
     case ComponentWithChildren(f) => f(attrs, children)
     case LazyComponent(f) => (s: Dict, a: Dict) => f(attrs)(s.toMap, WiredActions.fromJS(a))
     case LazyComponentWithChildren(f) => (s: Dict, a: Dict) => f(attrs, children)(s.toMap, WiredActions.fromJS(a))
-  }
+  }*/
 
   def ^(attrs: (String, js.Any)*): Map[String, js.Any] = attrs.toMap
-
-  def app(
-           state: State,
-           actions: Actions,
-           view: View,
-           container: dom.Node
-         ): WiredActions =
-    WiredActions.fromJS(
-      Hyperapp.app(state.toJSDictionary, actions.toJS, (s: Dict, a: Dict) => view(s.toMap, WiredActions.fromJS(a)), container)
-    )
 }

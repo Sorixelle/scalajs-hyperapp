@@ -105,3 +105,7 @@ Temporary Items
 .apdisk
 
 .idea
+ensime.sbt
+.ensime
+.ensime_cache/
+.ensime_lucene/
