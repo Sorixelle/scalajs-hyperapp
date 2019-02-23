@@ -4,5 +4,5 @@ Todo List
 - [ ] Update documentation
 - [x] App mounting
 - [x] Action support
-- [ ] Effect support
+- [x] Effect support
 - [ ] Subscription support
