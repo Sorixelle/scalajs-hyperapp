@@ -30,6 +30,7 @@ object ActionCallTest {
     new Hyperapp[AppState](
       new ActionResult(new AppState(0)),
       view,
+      (_: AppState) => List(),
       document.getElementById("app")
     ).run()
   }

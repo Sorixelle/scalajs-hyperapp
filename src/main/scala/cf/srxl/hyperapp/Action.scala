@@ -31,9 +31,9 @@ class Action[S <: js.Object](func: ActionFunc[S], args: Option[JSObj]) {
   }
 }
 
-class ActionResult[S <: js.Object](state: S, effect: Option[Effect[S]]) {
+class ActionResult[S <: js.Object](state: S, effect: Option[Effect]) {
   def this(state: S) = this(state, None)
-  def this(state: S, effect: Effect[S]) = this(state, Option(effect))
+  def this(state: S, effect: Effect) = this(state, Option(effect))
 
   def toJS: js.Any = effect match {
     case Some(e) => Seq[js.Any](state, e.toJS).toJSArray

@@ -22,3 +22,10 @@ Feature: scalajs-hyperapp
       Given I run the "Effect" test
         And the message can be located by id "message"
         And the update button can be located by id "update"
+
+  @StepDef
+  Scenario: I run the subscription test
+      Given I run the "Subscription" test
+        And the message can be located by id "text"
+        And the input field can be located by id "textInput"
+        And the toggle button can be located by id "updateToggle"

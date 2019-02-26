@@ -9,8 +9,8 @@ import org.scalajs.dom._
 
 @JSExportTopLevel("EffectTest")
 object EffectTest {
-  class Delay[S <: js.Object](time: Int, message: String, action: Action[S]) extends Effect[S] {
-    override val effect: (JSObj, DispatchFunc) => Unit = (props, dispatch) => {
+  class Delay[S <: js.Object](time: Int, message: String, action: Action[S]) extends Effect {
+    override val effect: (JSObj, DispatchFunc) => js.Any = (props, dispatch) => {
       window.setTimeout(() => dispatch(props.get("action").orUndefined, props.getOrElse("message", "")), time)
     }
 
@@ -37,19 +37,20 @@ object EffectTest {
 
     val Enqueue: Action2Args[AppState] = (state: AppState, args: JSObj) => new ActionResult(
       state,
-      new Delay[AppState](5000, args.string("msg").getOrElse(""), new Action[AppState](Update))
+      new Delay(5000, args.string("msg").getOrElse(""), new Action(Update))
     )
 
     val view = (s: AppState) => {
       <("div", ^(),
         <("h1", ^("id" -> "message"), s.text),
-        <("button", ^("id" -> "update", "onClick" -> new Action[AppState](Enqueue, Map[String, js.Any]("msg" -> "Pong")).toJS), "Update")
+        <("button", ^("id" -> "update", "onClick" -> new Action(Enqueue, Map[String, js.Any]("msg" -> "Pong")).toJS), "Update")
       )
     }
 
     new Hyperapp[AppState](
       new ActionResult(new AppState("Ping")),
       view,
+      (_: AppState) => List(),
       document.getElementById("app")
     ).run()
   }

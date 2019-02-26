@@ -20,6 +20,7 @@ object AppMountTest {
     new Hyperapp[AppState](
       new ActionResult(new AppState),
       _ => <("p", ^("id" -> "message"), "Hello, World!"),
+      (_: AppState) => List(),
       document.getElementById("app")
     ).run()
   }

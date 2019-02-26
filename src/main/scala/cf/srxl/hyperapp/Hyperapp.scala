@@ -4,15 +4,19 @@ import cf.srxl.hyperapp.DSL._
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
+import scala.scalajs.js.JSConverters._
 import org.scalajs.dom
 
 class Hyperapp[S <: js.Object](val init: ActionResult[S],
                                val view: S => ViewNode,
-                               val container: dom.Node) {
+                               val subscriptions: S => Seq[Effect],
+                               val container: dom.Node)
+                              (implicit sc: StateConverter[S]) {
   def run(): Unit = {
     Hyperapp.app(new InternHyperappConfig(
       init.toJS,
       view,
+      (state: Dict) => subscriptions(sc.fromJS(state)).map(_.toJS).toJSArray,
       container
     ))
   }
@@ -21,6 +25,7 @@ class Hyperapp[S <: js.Object](val init: ActionResult[S],
 class InternHyperappConfig(
   val init: js.Any,
   val view: js.Function,
+  val subscriptions: js.Function,
   val container: dom.Node
 ) extends js.Object
 

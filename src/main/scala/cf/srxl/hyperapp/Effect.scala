@@ -5,9 +5,9 @@ import cf.srxl.hyperapp.DSL._
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 
-abstract class Effect[S <: js.Object] extends js.Object {
+abstract class Effect {
   type DispatchFunc = (js.Any, js.Any) => Unit
-  val effect: (JSObj, DispatchFunc) => Unit
+  val effect: (JSObj, DispatchFunc) => js.Any
 
   def mkPropsMap: JSObj
   def toJS: js.Array[js.Any] = Seq[js.Any](
