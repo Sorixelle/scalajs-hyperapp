@@ -1,11 +1,10 @@
 package cf.srxl.hyperapp
 
 import scala.scalajs.js
-import scala.scalajs.js.JSConverters._
 
 import scala.language.implicitConversions
 
-object DSL {
+object Implicits {
   type Dict = js.Dictionary[js.Any]
   type JSObj = Map[String, js.Any]
 
@@ -28,16 +27,4 @@ object DSL {
     def char(k: String): Option[Char] = s.get(k) map (_.asInstanceOf[Char])
     def array[A](k: String): Option[Array[A]] = s.get(k) map (_.asInstanceOf[Array[A]])
   }
-
-  def <(name: String, attrs: Map[String, js.Any], children: js.Any*): ViewNode =
-    Hyperapp.h(name, attrs.toJSDictionary, children:_*)
-
-  /*def <(component: ComponentType, attrs: Map[String, js.Any], children: js.Any*): js.Any = component match {
-    case Component(f) => f(attrs)
-    case ComponentWithChildren(f) => f(attrs, children)
-    case LazyComponent(f) => (s: Dict, a: Dict) => f(attrs)(s.toMap, WiredActions.fromJS(a))
-    case LazyComponentWithChildren(f) => (s: Dict, a: Dict) => f(attrs, children)(s.toMap, WiredActions.fromJS(a))
-  }*/
-
-  def ^(attrs: (String, js.Any)*): Map[String, js.Any] = attrs.toMap
 }

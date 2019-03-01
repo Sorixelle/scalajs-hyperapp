@@ -12,7 +12,19 @@ lazy val root = (project in file("."))
     libraryDependencies += "org.scalatest" %%% "scalatest" % "3.0.5" % Test,
     npmDependencies in Compile += "hyperapp" -> "2.0.0-alpha.2",
     webpackBundlingMode := BundlingMode.LibraryOnly(),
-    publishTo := sonatypePublishTo.value
+    publishTo := sonatypePublishTo.value,
+    sourceGenerators in Compile += Def.taskDyn {
+      val outputFile = sourceManaged.in(Compile).value /
+        "cf" / "srxl" / "hyperapp" / "Tags.scala"
+      val tagsListFile = baseDirectory.in(Compile).in(codegen).value /
+        "tagList.txt"
+      Def.task {
+        (run in codegen in Compile)
+          .toTask(s" ${outputFile.getAbsolutePath} ${tagsListFile.getAbsolutePath}")
+          .value
+        Seq(outputFile)
+      }
+    }.taskValue
   ).enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
 
 lazy val integrationTests = (project in file("integration-tests"))
@@ -20,6 +32,10 @@ lazy val integrationTests = (project in file("integration-tests"))
     commonSettings,
     name := "scalajs-hyperapp-integration-tests",
     webpackBundlingMode := BundlingMode.LibraryAndApplication()
-    
   ).enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
   .dependsOn(root)
+
+lazy val codegen = (project in file("codegen"))
+  .settings(
+    name := "scalajs-hyperapp-codegen",
+  )

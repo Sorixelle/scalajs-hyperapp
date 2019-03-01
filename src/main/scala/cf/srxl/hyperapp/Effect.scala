@@ -1,6 +1,6 @@
 package cf.srxl.hyperapp
 
-import cf.srxl.hyperapp.DSL._
+import cf.srxl.hyperapp.Implicits._
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._

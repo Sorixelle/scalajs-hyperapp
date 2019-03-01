@@ -1,6 +1,7 @@
 package cf.srxl.hyperapp
 
-import cf.srxl.hyperapp.DSL._
+import cf.srxl.hyperapp.Implicits._
+import cf.srxl.hyperapp.Tags._
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
@@ -40,11 +41,11 @@ object SubscriptionTest {
     )
 
     val view = (s: AppState) =>
-      <("div", ^(),
-        <("h1", ^("id" -> "text"), s.text),
-        <("p", ^(), s.update.toString),
-        <("input", ^("id" -> "textInput")),
-        <("button", ^("id" -> "updateToggle", "onClick" -> new Action(ToggleUpdate).toJS), "Toggle Update")
+      div(Map(),
+        h1(Map("id" -> "text"), s.text),
+        p(Map(), s.update.toString),
+        input(Map("id" -> "textInput")),
+        button(Map("id" -> "updateToggle", "onClick" -> new Action(ToggleUpdate).toJS), "Toggle Update")
       )
 
     new Hyperapp(

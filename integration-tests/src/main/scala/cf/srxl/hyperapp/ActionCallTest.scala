@@ -1,6 +1,7 @@
 package cf.srxl.hyperapp
 
-import cf.srxl.hyperapp.DSL._
+import cf.srxl.hyperapp.Implicits._
+import cf.srxl.hyperapp.Tags._
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
@@ -21,10 +22,10 @@ object ActionCallTest {
     val Down: Action2Args[AppState] = (s: AppState, a: JSObj) => new ActionResult(new AppState(s.counter - a.int("by").getOrElse(1)))
 
     val view = (s: AppState) =>
-      <("div", ^(),
-        <("h1", ^("id" -> "counter"), s.counter),
-        <("button", ^("id" -> "increment", "onClick" -> new Action[AppState](Up, Map[String, js.Any]("by" -> 1)).toJS), "+"),
-        <("button", ^("id" -> "decrement", "onClick" -> new Action[AppState](Down, Map[String, js.Any]("by" -> 1)).toJS), "-")
+      div(Map(),
+        h1(Map("id" -> "counter"), s.counter),
+        button(Map("id" -> "increment", "onClick" -> new Action[AppState](Up, Map[String, js.Any]("by" -> 1)).toJS), "+"),
+        button(Map("id" -> "decrement", "onClick" -> new Action[AppState](Down, Map[String, js.Any]("by" -> 1)).toJS), "-")
       )
 
     new Hyperapp[AppState](

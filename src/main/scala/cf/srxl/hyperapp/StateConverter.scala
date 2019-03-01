@@ -1,6 +1,6 @@
 package cf.srxl.hyperapp
 
-import cf.srxl.hyperapp.DSL.Dict
+import cf.srxl.hyperapp.Implicits.Dict
 
 import scala.scalajs.js
 

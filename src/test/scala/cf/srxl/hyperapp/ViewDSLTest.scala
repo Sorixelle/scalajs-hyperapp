@@ -1,7 +1,7 @@
 package cf.srxl.hyperapp
 
 import org.scalatest.FlatSpec
-import DSL._
+import Implicits._
 
 import scala.scalajs.js
 

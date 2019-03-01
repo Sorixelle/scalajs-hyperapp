@@ -1,6 +1,6 @@
 package cf.srxl.hyperapp
 
-import cf.srxl.hyperapp.DSL.{Dict, JSObj}
+import cf.srxl.hyperapp.Implicits.{Dict, JSObj}
 
 import scala.language.postfixOps
 import scala.scalajs.js

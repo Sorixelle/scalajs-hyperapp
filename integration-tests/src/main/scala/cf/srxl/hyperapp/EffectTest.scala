@@ -1,6 +1,7 @@
 package cf.srxl.hyperapp
 
-import cf.srxl.hyperapp.DSL._
+import cf.srxl.hyperapp.Implicits._
+import cf.srxl.hyperapp.Tags._
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
@@ -41,9 +42,9 @@ object EffectTest {
     )
 
     val view = (s: AppState) => {
-      <("div", ^(),
-        <("h1", ^("id" -> "message"), s.text),
-        <("button", ^("id" -> "update", "onClick" -> new Action(Enqueue, Map[String, js.Any]("msg" -> "Pong")).toJS), "Update")
+      div(Map(),
+        h1(Map("id" -> "message"), s.text),
+        button(Map("id" -> "update", "onClick" -> new Action(Enqueue, Map[String, js.Any]("msg" -> "Pong")).toJS), "Update")
       )
     }
 
