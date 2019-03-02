@@ -29,3 +29,9 @@ Feature: scalajs-hyperapp
         And the message can be located by id "text"
         And the input field can be located by id "textInput"
         And the toggle button can be located by id "updateToggle"
+
+  @StepDef
+  Scenario: I run the component test
+      Given I run the "Component" test
+        And the message can be located by id "message"
+        And the component message can be located by id "compChild"
