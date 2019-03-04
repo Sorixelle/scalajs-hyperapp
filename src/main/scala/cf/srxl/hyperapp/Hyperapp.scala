@@ -30,7 +30,7 @@ class InternHyperappConfig(
 ) extends js.Object
 
 @js.native
-@JSImport("hyperapp", JSImport.Namespace)
+@JSImport("hyperapp", JSImport.Namespace, "hyperapp")
 object Hyperapp extends js.Object {
   def app(config: InternHyperappConfig): Dict = js.native
   def h(name: String, props: Dict, children: js.Any*): ViewNode = js.native

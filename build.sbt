@@ -10,8 +10,6 @@ lazy val root = (project in file("."))
     commonSettings,
     name := "scalajs-hyperapp",
     libraryDependencies += "org.scalatest" %%% "scalatest" % "3.0.5" % Test,
-    npmDependencies in Compile += "hyperapp" -> "2.0.0-alpha.2",
-    webpackBundlingMode := BundlingMode.LibraryOnly(),
     publishTo := sonatypePublishTo.value,
     sourceGenerators in Compile += Def.taskDyn {
       val outputFile = sourceManaged.in(Compile).value /
@@ -25,14 +23,14 @@ lazy val root = (project in file("."))
         Seq(outputFile)
       }
     }.taskValue
-  ).enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
+  ).enablePlugins(ScalaJSPlugin)
 
 lazy val integrationTests = (project in file("integration-tests"))
   .settings(
     commonSettings,
     name := "scalajs-hyperapp-integration-tests",
-    webpackBundlingMode := BundlingMode.LibraryAndApplication()
-  ).enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
+    jsDependencies += "org.webjars.npm" % "hyperapp" % "2.0.0-alpha.8" / "dist/hyperapp.js"
+  ).enablePlugins(ScalaJSPlugin)
   .dependsOn(root)
 
 lazy val codegen = (project in file("codegen"))
